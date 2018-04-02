@@ -1,6 +1,10 @@
 import pygame
 import math
 from settings import Settings
+from pygame.sprite import Sprite
+from pygame.sprite import Group
+from train import Train
+import game_functions as gf
 pygame.init()
 
 def drawLine(background):
@@ -17,20 +21,18 @@ def main():
 	
 	background = pygame.Surface(screen.get_size())
 	background = background.convert()
-	background.fill((255, 255, 255))#背景板参数
+	background.fill((ai_settings.bg_color))#背景板参数
 	
 	drawLine(background)
+	train=Train(background)
+	trains=Group()#把列车变成组
 	
 	clock = pygame.time.Clock()
 	keepGoing = True
 	while keepGoing:
 		clock.tick(30)
-		for event in pygame.event.get():	#事件监听
-			if event.type == pygame.QUIT:
-				keepGoing = False
-			elif event.type == pygame.MOUSEBUTTONUP:	#记录鼠标点击位置
-				print(pygame.mouse.get_pos())
-		screen.blit(background, (0, 0))
-		pygame.display.flip()
+		gf.check_events()#事件响应模块
+		##train.move_contrail()
+		gf.update_screen()#绘制模块
 		
 main()
